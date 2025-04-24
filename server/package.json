@@ -4,18 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.12.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "express": "^4.18.3",
+    "express": "^4.21.2",
+    "jest-mock": "^29.7.0",
     "mysql": "^2.18.1",
     "nanoid": "^5.0.6",
-    "prisma": "^5.12.1"
+    "node-mocks-http": "^1.16.2",
+    "prisma": "^5.12.1",
+    "razvoj_veb_aplikacija": "file:"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.5.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^18.3.19",
+    "@types/react-dom": "^18.3.5",
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^4.0.0-beta1",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.6"
   }
 }

@@ -183,7 +183,7 @@ npm run dev
 
 <h3>Single product page</h3>
 
-![singitronic single product page](https://github.com/Kuzma02/Electronics-eCommerce-Shop-With-Admin-Dashboard-NextJS-NodeJS/assets/138793624/443ea3e2-4d32-4d15-aa3b-436cbae0eade)
+![singitronic single product page](https://gitphub.com/Kuzma02/Electronics-eCommerce-Shop-With-Admin-Dashboard-NextJS-NodeJS/assets/138793624/443ea3e2-4d32-4d15-aa3b-436cbae0eade)
 
 <h3>Register page</h3>
 
