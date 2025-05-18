@@ -112,7 +112,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.1: Verify fetching an order by ID
-  it("TC01: should return order when id exists and DB record matches expected output", async () => {
+  it("TCCO01: should return order when id exists and DB record matches expected output", async () => {
     // Expected output should match the sample order data
     const expectedOutput = {
       ...sampleOrderData,
@@ -134,7 +134,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.2: Verify 404 response for non-existent order ID
-  it("TC02: should return 404 and confirm DB has no record when id does not exist", async () => {
+  it("TCCO02: should return 404 and confirm DB has no record when id does not exist", async () => {
     const nonExistentId = "clxxxxxxxxxxxxxxxxxx"; // Non-existent ID
     const response = await request(app).get(`/api/orders/${nonExistentId}`);
     expect(response.status).toBe(404); // Expect HTTP 404 Not Found
@@ -148,7 +148,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.3: Verify fetching all orders
-  it("TC03: should get all orders", async () => {
+  it("TCCO03: should get all orders", async () => {
     const response = await request(app).get("/api/orders");
     expect(response.status).toBe(200); // Expect HTTP 200 OK
     expect(Array.isArray(response.body)).toBe(true); // Verify response is an array
@@ -159,7 +159,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.4: Verify creating a new order
-  it("TC04: should create a new order", async () => {
+  it("TCCO04: should create a new order", async () => {
     const newOrderData = {
       ...sampleOrderData,
       email: "another.order@example.com", // Use a different email for the new order
@@ -183,7 +183,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.5: Verify updating an order
-  it("TC05: should update an order", async () => {
+  it("TCCO05: should update an order", async () => {
     const updatedData = {
       ...sampleOrderData,
       status: "Shipped", // Update status to "Shipped"
@@ -210,7 +210,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.6: Verify 404 response when updating non-existent order
-  it("TC06: should return 404 when updating non-existent order", async () => {
+  it("TCCO06: should return 404 when updating non-existent order", async () => {
     const nonExistentId = "clxxxxxxxxxxxxxxxxxx"; // Non-existent ID
     const updatedData = { status: "Cancelled" }; // Update data
     const response = await request(app)
@@ -222,7 +222,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.7: Verify deleting an order
-  it("TC07: should delete an order", async () => {
+  it("TCCO07: should delete an order", async () => {
     const orderToDeleteData = {
       ...sampleOrderData,
       email: "delete.order@example.com", // Use a different email for the order to delete
@@ -246,7 +246,7 @@ describe("Customer Order Controller and DB operations", () => {
   });
 
   // Test Case 2.3.8: Verify adding, updating, and deleting a record in the DB
-  it("TC08: should correctly add, update, and delete a record in the DB", async () => {
+  it("TCCO08: should correctly add, update, and delete a record in the DB", async () => {
     const addTestData = {
       ...sampleOrderData,
       email: "add.test@example.com", // Use a different email for the added order

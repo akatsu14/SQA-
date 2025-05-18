@@ -155,7 +155,7 @@ describe("Wishlist API Endpoints", () => {
 
   // --- Test Cases for POST /api/wishlist ---
   describe("POST /api/wishlist", () => {
-    it("TC01: should create a new wish item and return 201", async () => {
+    it("TCWL01: should create a new wish item and return 201", async () => {
       const newItemData = { userId: user1Data.id, productId: product2Data.id };
 
       const response = await request(app)
@@ -176,7 +176,7 @@ describe("Wishlist API Endpoints", () => {
       expect(itemsInDb[0].productId).toBe(newItemData.productId);
     });
 
-    it("TC02: should allow creating a duplicate wish item (if no unique constraint)", async () => {
+    it("TCWL02: should allow creating a duplicate wish item (if no unique constraint)", async () => {
       // Thử tạo lại item đã tồn tại (tạo trong beforeEach)
       const existingItemData = {
         userId: user1Data.id,
@@ -201,7 +201,7 @@ describe("Wishlist API Endpoints", () => {
       expect(itemsInDb.length).toBeGreaterThanOrEqual(1); // Ít nhất là 1 item
     });
 
-    it("TC03: should return 500 if userId is invalid/missing relation", async () => {
+    it("TCWL03: should return 500 if userId is invalid/missing relation", async () => {
       // ---> Tạm thời tắt console.error cho test case này <---
       const errorSpy = jest
         .spyOn(console, "error")
@@ -222,7 +222,7 @@ describe("Wishlist API Endpoints", () => {
       errorSpy.mockRestore();
     });
 
-    it("TC04: should return 500 if productId is invalid/missing relation", async () => {
+    it("TCWL04: should return 500 if productId is invalid/missing relation", async () => {
       // ---> Tạm thời tắt console.error cho test case này <---
       const errorSpy = jest
         .spyOn(console, "error")
@@ -246,7 +246,7 @@ describe("Wishlist API Endpoints", () => {
 
   // --- Test Cases for GET /api/wishlist/user/:userId ---
   describe("GET /api/wishlist/user/:userId", () => {
-    it("TC05: should return wishlist items for a specific user", async () => {
+    it("TCWL05: should return wishlist items for a specific user", async () => {
       // User 1 có 1 item tạo trong beforeEach
       const response = await request(app).get(
         `/api/wishlist/user/${user1Data.id}`
@@ -263,7 +263,7 @@ describe("Wishlist API Endpoints", () => {
       expect(response.body[0].product.title).toBe(product1Data.title);
     });
 
-    it("TC06: should return an empty array for a user with no wishlist items", async () => {
+    it("TCWL06: should return an empty array for a user with no wishlist items", async () => {
       // User 2 không có item nào
       const response = await request(app).get(
         `/api/wishlist/user/${user2Data.id}`
@@ -274,7 +274,7 @@ describe("Wishlist API Endpoints", () => {
       expect(response.body.length).toBe(0);
     });
 
-    it("TC07: should return an empty array for a non-existent user ID", async () => {
+    it("TCWL07: should return an empty array for a non-existent user ID", async () => {
       const response = await request(app).get(
         `/api/wishlist/user/non-existent-user`
       );
@@ -287,7 +287,7 @@ describe("Wishlist API Endpoints", () => {
 
   // --- Test Cases for GET /api/wishlist/:userId/:productId ---
   describe("GET /api/wishlist/:userId/:productId", () => {
-    it("TC08: should return the specific wish item if it exists", async () => {
+    it("TCWL08: should return the specific wish item if it exists", async () => {
       // Item này được tạo trong beforeEach
       const response = await request(app).get(
         `/api/wishlist/${user1Data.id}/${product1Data.id}`
@@ -300,7 +300,7 @@ describe("Wishlist API Endpoints", () => {
       expect(response.body[0].productId).toBe(product1Data.id);
     });
 
-    it("TC09: should return an empty array if the item does not exist for the user", async () => {
+    it("TCWL09: should return an empty array if the item does not exist for the user", async () => {
       // User 1 không có product 2 trong wishlist
       const response = await request(app).get(
         `/api/wishlist/${user1Data.id}/${product2Data.id}`
@@ -311,7 +311,7 @@ describe("Wishlist API Endpoints", () => {
       expect(response.body.length).toBe(0);
     });
 
-    it("TC10: should return an empty array for a non-existent user ID", async () => {
+    it("TCWL10: should return an empty array for a non-existent user ID", async () => {
       const response = await request(app).get(
         `/api/wishlist/non-existent-user/${product1Data.id}`
       );
@@ -321,7 +321,7 @@ describe("Wishlist API Endpoints", () => {
       expect(response.body.length).toBe(0);
     });
 
-    it("TC11: should return an empty array for a non-existent product ID", async () => {
+    it("TCWL11: should return an empty array for a non-existent product ID", async () => {
       const response = await request(app).get(
         `/api/wishlist/${user1Data.id}/non-existent-product`
       );
@@ -334,7 +334,7 @@ describe("Wishlist API Endpoints", () => {
 
   // --- Test Cases for DELETE /api/wishlist/:userId/:productId ---
   describe("DELETE /api/wishlist/:userId/:productId", () => {
-    it("TC12: should delete the specific wish item and return 204", async () => {
+    it("TCWL12: should delete the specific wish item and return 204", async () => {
       // Item này tồn tại từ beforeEach
       const response = await request(app).delete(
         `/api/wishlist/${user1Data.id}/${product1Data.id}`
@@ -349,7 +349,7 @@ describe("Wishlist API Endpoints", () => {
       expect(itemInDb).toBeNull(); // Item đã bị xóa
     });
 
-    it("TC13: should return 204 even if the item to delete does not exist", async () => {
+    it("TCWL13: should return 204 even if the item to delete does not exist", async () => {
       // User 1 không có product 2
       const response = await request(app).delete(
         `/api/wishlist/${user1Data.id}/${product2Data.id}`
@@ -361,13 +361,13 @@ describe("Wishlist API Endpoints", () => {
       const count = await prisma.wishlist.count({
         where: { userId: user1Data.id },
       });
-      // Nên bằng 0 nếu TC12 chạy trước và xóa item kia, hoặc giữ nguyên nếu chạy độc lập
+      // Nên bằng 0 nếu TCWL12 chạy trước và xóa item kia, hoặc giữ nguyên nếu chạy độc lập
       // Tốt nhất là kiểm tra count trước và sau khi gọi delete trong cùng 1 test,
-      // nhưng với beforeEach thì kiểm tra count=0 là đủ nếu TC12 đã xóa item gốc
-      expect(count).toBe(0); // Giả sử TC12 đã xóa item còn lại
+      // nhưng với beforeEach thì kiểm tra count=0 là đủ nếu TCWL12 đã xóa item gốc
+      expect(count).toBe(0); // Giả sử TCWL12 đã xóa item còn lại
     });
 
-    it("TC14: should return 204 for non-existent user or product IDs", async () => {
+    it("TCWL14: should return 204 for non-existent user or product IDs", async () => {
       const responseUser = await request(app).delete(
         `/api/wishlist/non-existent-user/${product1Data.id}`
       );
@@ -382,7 +382,7 @@ describe("Wishlist API Endpoints", () => {
 
   // --- Test Cases for GET /api/wishlist ---
   describe("GET /api/wishlist", () => {
-    it("TC15: should return all wishlist items from all users", async () => {
+    it("TCWL15: should return all wishlist items from all users", async () => {
       // Tạo thêm 1 item cho user 2 để có nhiều hơn 1 item tổng cộng
       await prisma.wishlist.create({
         data: { userId: user2Data.id, productId: product2Data.id },
@@ -418,7 +418,7 @@ describe("Wishlist API Endpoints", () => {
       });
     });
 
-    it("TC16: should return an empty array if no wishlist items exist globally", async () => {
+    it("TCWL16: should return an empty array if no wishlist items exist globally", async () => {
       // Xóa item tạo sẵn trong beforeEach để đảm bảo DB trống
       await prisma.wishlist.deleteMany({ where: { userId: user1Data.id } });
 

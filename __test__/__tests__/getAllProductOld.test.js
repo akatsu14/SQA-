@@ -65,7 +65,7 @@ describe('getAllProductsOld Function', () => {
      * 2. Returns proper status code
      * 3. Returns expected product data
      */
-    test('should fetch all products with categories', async () => {
+    it('TCGAO01: should fetch all products with categories', async () => {
         // Configure mock to return our test products
         prisma.product.findMany.mockResolvedValue(mockProducts);
 
@@ -99,7 +99,7 @@ describe('getAllProductsOld Function', () => {
      * Test Case: Category inclusion verification
      * Ensures the response includes category names
      */
-    test('should include category name in response', async () => {
+    it('TCGAO02: should include category name in response', async () => {
         prisma.product.findMany.mockResolvedValue(mockProducts);
 
         const mockRequest = {};
@@ -122,7 +122,7 @@ describe('getAllProductsOld Function', () => {
      * Test Case: Empty product list
      * Verifies proper handling when no products exist
      */
-    test('should return empty array when no products exist', async () => {
+    it('TCGAO03: should return empty array when no products exist', async () => {
         // Mock empty array response
         prisma.product.findMany.mockResolvedValue([]);
 
@@ -143,7 +143,7 @@ describe('getAllProductsOld Function', () => {
      * Verifies error logging behavior
      * Note: Current implementation only logs errors (should be enhanced)
      */
-    test('should handle database errors', async () => {
+    it('TCGAO04: should handle database errors', async () => {
         // Simulate database failure
         prisma.product.findMany.mockRejectedValue(new Error('Database error'));
 

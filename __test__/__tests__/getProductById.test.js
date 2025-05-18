@@ -25,7 +25,8 @@ describe('Get Product By ID Function', () => {
         await prisma.$disconnect(); // Clean up Prisma connection after all tests
     });
 
-    test('should return 404 if product is not found', async () => {
+    // This test checks if the function returns 404 when the product is not found in the database.
+    it("TCGP01: should return 404 if product is not found", async () => {
         // Simulate no product found in the database
         prisma.product.findUnique.mockResolvedValue(null);
 
@@ -42,7 +43,8 @@ describe('Get Product By ID Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Product not found' });
     });
 
-    test('should return product if found', async () => {
+    // This test checks if the function returns the product if it is found in the database.
+    it("TCGP02: should return product if found", async () => {
         // Mock product to be returned
         const mockProduct = {
             id: '1',
@@ -66,7 +68,8 @@ describe('Get Product By ID Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith(mockProduct);
     });
 
-    test('should call findUnique with correct id and include category', async () => {
+    // This test checks if the function calls findUnique with the correct id and includes the category.
+    it("TCGP03: should call findUnique with correct id and include category", async () => {
         // Provide a mock product for test
         const mockProduct = {
             id: '1',
@@ -90,5 +93,29 @@ describe('Get Product By ID Function', () => {
             where: { id: '1' },
             include: { category: true },
         });
+    });
+
+    it("TCGP04: should return product by ID if exists", async () => {
+        // Mock product to be returned
+        const mockProduct = {
+            id: '1',
+            title: 'Test Product',
+            category: { name: 'Test Category' },
+        };
+
+        // Simulate successful DB response
+        prisma.product.findUnique.mockResolvedValue(mockProduct);
+
+        const mockRequest = { params: { id: '1' } }; // Request with ID param
+        const mockResponse = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn(),
+        };
+
+        await getProductById(mockRequest, mockResponse);
+
+        // Expect 200 status and the returned product
+        expect(mockResponse.status).toHaveBeenCalledWith(200);
+        expect(mockResponse.json).toHaveBeenCalledWith(mockProduct);
     });
 });

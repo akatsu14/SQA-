@@ -32,7 +32,7 @@ describe('Search Products Function', () => {
     });
 
     // Test case: Should return 400 error when no search query is provided
-    test('should return 400 error when no query is provided', async () => {
+    it('TCSH01: should return 400 error when no query is provided', async () => {
         // Setup mock request with empty query
         const mockRequest = {
             query: {} // No query parameter
@@ -58,7 +58,7 @@ describe('Search Products Function', () => {
     });
 
     // Test case: Should successfully search products by title or description
-    test('should search products by title or description', async () => {
+    it('TCSH02: should search products by title or description', async () => {
         // Mock product data that matches our schema
         const mockProducts = [{
             id: '1',
@@ -98,7 +98,7 @@ describe('Search Products Function', () => {
     });
 
     // Test case: Should handle empty results gracefully
-    test('should return empty array if no products match', async () => {
+    it('TCSH03: should return empty array if no products match', async () => {
         // Mock empty array response from Prisma
         prisma.product.findMany.mockResolvedValue([]);
 
@@ -119,7 +119,7 @@ describe('Search Products Function', () => {
     });
 
     // Test case: Should handle database errors properly
-    test('should handle database errors', async () => {
+    it('TCSH04: should handle database errors', async () => {
         // Mock a database error
         prisma.product.findMany.mockRejectedValue(new Error('Database error'));
 

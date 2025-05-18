@@ -26,7 +26,7 @@ describe('Search Products Function', () => {
         await prisma.$disconnect(); // Disconnect Prisma after all tests
     });
 
-    test('should return 400 if no query parameter is provided', async () => {
+    it("TCSP01: should return 400 if no query parameter is provided", async () => {
         // Simulate request without query parameter
         const mockRequest = { query: {} };
         const mockResponse = {
@@ -43,7 +43,7 @@ describe('Search Products Function', () => {
         expect(prisma.product.findMany).not.toHaveBeenCalled();
     });
 
-    test('should return products matching the query', async () => {
+    it("TCSP02: should return products matching the query", async () => {
         // Mock matched products
         const mockProducts = [
             { id: '1', title: 'Test Product', description: 'A sample product' },
@@ -68,7 +68,7 @@ describe('Search Products Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith(mockProducts);
     });
 
-    test('should return empty array if no products match', async () => {
+    it("TCSP03: should return empty array if no products match", async () => {
         prisma.product.findMany.mockResolvedValue([]); // No matching results
 
         const mockRequest = { query: { query: 'NonExistent' } }; // Non-matching query
@@ -80,7 +80,7 @@ describe('Search Products Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith([]);
     });
 
-    test('should handle database errors', async () => {
+    it("TCSP04: should handle database errors", async () => {
         prisma.product.findMany.mockRejectedValue(new Error('Database error')); // Simulate DB error
         const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { }); // Silence error output
 
@@ -99,5 +99,30 @@ describe('Search Products Function', () => {
         expect(consoleErrorSpy).toHaveBeenCalledWith("Error searching products:", expect.any(Error));
 
         consoleErrorSpy.mockRestore(); // Restore console.error
+    });
+
+    it("TCSP05: should search products by keyword", async () => {
+        // Mock matched products
+        const mockProducts = [
+            { id: '1', title: 'Test Product', description: 'A sample product' },
+        ];
+        prisma.product.findMany.mockResolvedValue(mockProducts); // Simulate DB return
+
+        const mockRequest = { query: { query: 'Test' } }; // Provide query param
+        const mockResponse = { json: jest.fn() }; // Mock response
+
+        await searchProducts(mockRequest, mockResponse); // Call controller
+
+        // Expect findMany to be called with OR query
+        expect(prisma.product.findMany).toHaveBeenCalledWith({
+            where: {
+                OR: [
+                    { title: { contains: 'Test' } },
+                    { description: { contains: 'Test' } },
+                ],
+            },
+        });
+        // Expect returned products to be sent in response
+        expect(mockResponse.json).toHaveBeenCalledWith(mockProducts);
     });
 });

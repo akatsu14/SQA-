@@ -144,9 +144,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
 
   // --- Test Cases ---
 
-  // Test Case ID: TC001
+  // Test Case ID: TCCOP01
   // Objective: Verify that a new order-product link can be created successfully
-  it("POST /api/order-product - should create a new order-product link", async () => {
+  it("TCCOP01: POST /api/order-product - should create a new order-product link", async () => {
     const newLinkData = {
       customerOrderId: testCustomerOrder.id,
       productId: testProduct.id,
@@ -174,9 +174,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(dbRecord).toMatchObject(newLinkData); // Ensure the record matches the input data
   });
 
-  // Test Case ID: TC002
+  // Test Case ID: TCCOP02
   // Objective: Verify that an existing order-product link can be updated successfully
-  it("PUT /api/order-product/:id - should update an existing order-product link", async () => {
+  it("TCCOP02: PUT /api/order-product/:id - should update an existing order-product link", async () => {
     const updatedData = {
       customerOrderId: testOrderProduct.customerOrderId,
       productId: testOrderProduct.productId,
@@ -199,9 +199,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(dbRecord.quantity).toBe(updatedData.quantity); // Ensure the quantity is updated in the database
   });
 
-  // Test Case ID: TC003
+  // Test Case ID: TCCOP03
   // Objective: Verify that updating a non-existent order-product link returns a 404 error
-  it("PUT /api/order-product/:id - should return 404 if order-product link not found", async () => {
+  it("TCCOP03: PUT /api/order-product/:id - should return 404 if order-product link not found", async () => {
     const nonExistentId = "clxxxxxxxxxxxxxxxxxx"; // Non-existent ID
     const updatedData = { quantity: 1 };
 
@@ -213,9 +213,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(response.body).toEqual({ error: "Order not found" }); // Check if the error message is as expected
   });
 
-  // Test Case ID: TC004
+  // Test Case ID: TCCOP04
   // Objective: Verify that all links for a given customerOrderId can be deleted successfully
-  it("DELETE /api/order-product/:id - should delete all links for a given customerOrderId", async () => {
+  it("TCCOP04: DELETE /api/order-product/:id - should delete all links for a given customerOrderId", async () => {
     await prisma.customer_order_product.create({
       data: {
         customerOrderId: testCustomerOrder.id,
@@ -244,9 +244,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(recordsAfter.length).toBe(0); // Ensure all records are deleted
   });
 
-  // Test Case ID: TC005
+  // Test Case ID: TCCOP05
   // Objective: Verify that all product links for a given customerOrderId can be retrieved successfully
-  it("GET /api/order-product/:id - should return all product links for a given customerOrderId", async () => {
+  it("TCCOP05: GET /api/order-product/:id - should return all product links for a given customerOrderId", async () => {
     // Create a new order-product link for testing
     const response = await request(app).get(
       `/api/order-product/${testCustomerOrder.id}`
@@ -265,9 +265,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(receivedRecord.product.title).toBe(testProduct.title); // Check if the product title matches
   });
 
-  // Test Case ID: TC006
+  // Test Case ID: TCCOP06
   // Objective: Verify that retrieving product links for a non-existent customerOrderId returns an empty array
-  it("GET /api/order-product/:id - should return 200 and empty array if customerOrderId not found", async () => {
+  it("TCCOP06: GET /api/order-product/:id - should return 200 and empty array if customerOrderId not found", async () => {
     const nonExistentOrderId = "clxxxxxxxxxxxxxxxxxx"; // Non-existent customerOrderId
     const response = await request(app).get(
       `/api/order-product/${nonExistentOrderId}`
@@ -277,9 +277,9 @@ describe("Customer Order Product Controller and DB Operations", () => {
     expect(response.body).toEqual([]); // Check if the response body is an empty array
   });
 
-  // Test Case ID: TC007
+  // Test Case ID: TCCOP07
   // Objective: Verify that all orders are grouped by customer with product details
-  it("GET /api/order-product - should return all orders grouped by customer with product details", async () => {
+  it("TCCOP07: GET /api/order-product - should return all orders grouped by customer with product details", async () => {
     const anotherOrder = await prisma.customer_order.create({
       data: {
         name: "Another",

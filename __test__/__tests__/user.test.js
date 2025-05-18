@@ -66,7 +66,7 @@ describe("getUserByEmail and DB operations", () => {
     });
   });
 
-  it("should return user data when email exists and DB record matches expected output", async () => {
+  it("TCUS01: should return user data when email exists and DB record matches expected output", async () => {
     const expectedOutput = {
       email: "test@example.com",
       role: "user",
@@ -79,7 +79,7 @@ describe("getUserByEmail and DB operations", () => {
     expect(response.body).toMatchObject(expectedOutput);
   });
 
-  it("should return 404 and confirm DB has no record when email does not exist", async () => {
+  it("TCUS02: should return 404 and confirm DB has no record when email does not exist", async () => {
     const response = await request(app).get(
       `/api/users/email/nonexistent@example.com`
     );
@@ -92,7 +92,7 @@ describe("getUserByEmail and DB operations", () => {
     expect(userInDb).toBeNull();
   });
 
-  it("should correctly add, update, and delete a record in the DB", async () => {
+  it("TCUS03: should correctly add, update, and delete a record in the DB", async () => {
     // Add new user
     const addedUser = await prisma.user.create({
       data: {

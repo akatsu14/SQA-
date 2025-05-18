@@ -82,7 +82,7 @@ describe("Slug Controller (getProductBySlug) - Corrected Schema", () => {
     });
   });
 
-  it("TC01: should return product details (using title) when slug exists", async () => {
+  it("TCSL01: should return product details (using title) when slug exists", async () => {
     const response = await request(app).get(`/api/slugs/${testProductSlug}`);
 
     expect(response.status).toBe(200);
@@ -109,7 +109,7 @@ describe("Slug Controller (getProductBySlug) - Corrected Schema", () => {
     expect(productInDb.title).toBe(testProductTitle); // Xác nhận title trong DB
   });
 
-  it("TC02: should return 404 Not Found when slug does not exist", async () => {
+  it("TCSL02: should return 404 Not Found when slug does not exist", async () => {
     const response = await request(app).get(`/api/slugs/${nonExistentSlug}`);
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ error: "Product not found" });

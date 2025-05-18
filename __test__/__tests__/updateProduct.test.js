@@ -62,7 +62,7 @@ describe('updateProduct Function', () => {
         await mockedPrisma.$disconnect();
     });
 
-    test('should successfully update a product', async () => {
+    it("TSPR04: should update product if data is valid", async () => {
         // Simulate existing product found
         mockedPrisma.product.findUnique.mockResolvedValue(EXISTING_PRODUCT);
         // Simulate updated product return
@@ -102,7 +102,8 @@ describe('updateProduct Function', () => {
         });
     });
 
-    test('should return 404 if product not found', async () => {
+    // This test checks if the function returns 404 when the product is not found in the database.
+    it("TCUP02: should return 404 if product not found", async () => {
         // Simulate product not found
         mockedPrisma.product.findUnique.mockResolvedValue(null);
 
@@ -127,7 +128,8 @@ describe('updateProduct Function', () => {
         expect(mockedPrisma.product.update).not.toHaveBeenCalled();
     });
 
-    test('should handle partial updates', async () => {
+    // This test checks if the function can handle partial updates (not all fields provided).
+    it("TCUP03: should handle partial updates", async () => {
         const partialUpdate = {
             title: 'Partially Updated',
             price: 150
@@ -156,7 +158,8 @@ describe('updateProduct Function', () => {
         });
     });
 
-    test('should return 500 on database error', async () => {
+    // This test checks if the function returns 500 when there is a database error.
+    it("TCUP04: should return 500 on database error", async () => {
         // Simulate a DB error
         mockedPrisma.product.findUnique.mockRejectedValue(new Error('DB Error'));
 
@@ -179,7 +182,8 @@ describe('updateProduct Function', () => {
         });
     });
 
-    test('should maintain category relation', async () => {
+    // This test checks if the function keeps the category relation when updating a product.
+    it("TCUP05: should maintain category relation", async () => {
         const updateWithCategory = {
             ...UPDATE_DATA,
             categoryId: 'new-category-id'

@@ -77,7 +77,7 @@ describe('createProduct Function', () => {
      * 2. Returns proper 201 status code
      * 3. Returns the created product data
      */
-    test('should create a new product with valid data', async () => {
+    it("TCCP01: should create a new product with valid data", async () => {
         // Configure mock to return our test product
         prisma.product.create.mockResolvedValue(mockCreatedProduct);
 
@@ -111,7 +111,7 @@ describe('createProduct Function', () => {
      * 2. Returns proper 500 status code
      * 3. Returns error message
      */
-    test('should handle missing required fields', async () => {
+    it("TCCP02: should handle missing required fields", async () => {
         // Create incomplete data by removing required field
         const incompleteData = { ...mockProductData };
         delete incompleteData.title; // Remove required title field
@@ -140,7 +140,7 @@ describe('createProduct Function', () => {
      * 1. The function sets default rating to 5
      * 2. Works correctly when rating isn't provided
      */
-    test('should set default rating to 5', async () => {
+    it("TCCP03: should set default rating to 5", async () => {
         // Create data without rating
         const productWithoutRating = { ...mockProductData };
         delete productWithoutRating.rating;

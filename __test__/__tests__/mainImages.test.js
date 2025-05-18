@@ -29,8 +29,8 @@ describe("Main Images Controller - uploadMainImage", () => {
     jest.restoreAllMocks(); // Ensures clean state
   });
 
-  // Test Case TC001: No files uploaded
-  it("TC001: should return 400 if no files are uploaded", () => {
+  // Test Case TCMI01: No files uploaded
+  it("TCMI01: should return 400 if no files are uploaded", () => {
     // Call the controller function with no files in the request
     uploadMainImage(mockRequest, mockResponse);
 
@@ -41,8 +41,8 @@ describe("Main Images Controller - uploadMainImage", () => {
     });
   });
 
-  // Test Case TC002: Empty files object
-  it("TC002: should return 400 if req.files is an empty object", () => {
+  // Test Case TCMI02: Empty files object
+  it("TCMI02: should return 400 if req.files is an empty object", () => {
     // Assign an empty object to req.files
     mockRequest.files = {};
 
@@ -55,8 +55,8 @@ describe("Main Images Controller - uploadMainImage", () => {
     });
   });
 
-  // Test Case TC003: Successful file upload
-  it("TC003: should call mv with the correct path and return 200 on successful upload", () => {
+  // Test Case TCMI03: Successful file upload
+  it("TCMI03: should call mv with the correct path and return 200 on successful upload", () => {
     const testFileName = "test-image.jpg";
     // Simulate a file object in req.files
     mockRequest.files = {
@@ -86,8 +86,8 @@ describe("Main Images Controller - uploadMainImage", () => {
     // Example: expect(checkDatabase()).toBe(true);
   });
 
-  // Test Case TC004: File upload failure due to mv error
-  it("TC004: should return 500 if mv function encounters an error", () => {
+  // Test Case TCMI04: File upload failure due to mv error
+  it("TCMI04: should return 500 if mv function encounters an error", () => {
     const testFileName = "error-image.png";
     const simulatedError = new Error("Disk full"); // Simulated error
 

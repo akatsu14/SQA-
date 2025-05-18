@@ -27,7 +27,7 @@ describe('Get All Products Function', () => {
         await prisma.$disconnect();
     });
 
-    test('should return all products in admin mode', async () => {
+    it("TCGA01: should return all products in admin mode", async () => {
         // Arrange: Set up mock data and mock request/response
         const mockProducts = [
             { id: '1', title: 'Product 1' },
@@ -51,7 +51,8 @@ describe('Get All Products Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith(mockProducts);
     });
 
-    test('should handle database error in admin mode', async () => {
+    // This test checks if the function handles a database error in admin mode.
+    it("TCGA02: should handle database error in admin mode", async () => {
         // Arrange: Simulate a DB error by rejecting the promise
         prisma.product.findMany.mockRejectedValue(new Error('DB error'));
 
@@ -71,7 +72,8 @@ describe('Get All Products Function', () => {
         expect(mockResponse.json).toHaveBeenCalledWith({ error: 'Error fetching products' });
     });
 
-    test('should call findMany with pagination and sorting (non-admin mode)', async () => {
+    // This test checks if the function calls findMany with pagination and sorting in non-admin mode.
+    it("TCGA03: should call findMany with pagination and sorting (non-admin mode)", async () => {
         // Arrange: Simulate request with query parameters including pagination and sorting
         const mockProducts = [
             { id: '1', title: 'Product 1', category: { name: 'Cat 1' } },

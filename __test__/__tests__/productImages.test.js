@@ -109,7 +109,7 @@ describe("Product Images Controller and DB Operations", () => {
 
   // TC-1: Test creating a new image
   // Purpose: Verify that a new image can be created successfully.
-  it("TC-1: POST /api/images - should create a new image", async () => {
+  it("TCPI01: POST /api/images - should create a new image", async () => {
     const newImageData = {
       productID: testProduct.id,
       image: "new-image.gif",
@@ -135,7 +135,7 @@ describe("Product Images Controller and DB Operations", () => {
 
   // TC-2: Test retrieving all images for a product
   // Purpose: Verify that all images for a given productID are retrieved.
-  it("TC-2: GET /api/images/:id - should return all images for a given productID", async () => {
+  it("TCPI02: GET /api/images/:id - should return all images for a given productID", async () => {
     // Create a second image
     await prisma.image.create({
       data: { productID: testProduct.id, image: "second-image.png" },
@@ -163,7 +163,7 @@ describe("Product Images Controller and DB Operations", () => {
 
   // TC-3: Test retrieving images for a non-existent product
   // Purpose: Verify that an empty array is returned if no images exist for the productID.
-  it("TC-3: GET /api/images/:id - should return 200 and empty array if productID has no images", async () => {
+  it("TCPI03: GET /api/images/:id - should return 200 and empty array if productID has no images", async () => {
     const nonExistentProductId = "non-existent-product-clx";
     const response = await request(app).get(
       `/api/images/${nonExistentProductId}`
@@ -175,7 +175,7 @@ describe("Product Images Controller and DB Operations", () => {
 
   // TC-4: Test updating an image
   // Purpose: Verify that the first image found for the productID can be updated.
-  it("TC-4: PUT /api/images/:id - should update the first image found for the productID", async () => {
+  it("TCPI04: PUT /api/images/:id - should update the first image found for the productID", async () => {
     const updatedData = {
       productID: testProduct.id, // Typically productID does not change when updating an image
       image: updatedImageName,
@@ -201,7 +201,7 @@ describe("Product Images Controller and DB Operations", () => {
 
   // TC-5: Test deleting all images for a product
   // Purpose: Verify that all images for the given productID are deleted.
-  it("TC-5: DELETE /api/images/:id - should delete all images for the given productID", async () => {
+  it("TCPI05: DELETE /api/images/:id - should delete all images for the given productID", async () => {
     // Create a second image to test deleteMany
     await prisma.image.create({
       data: { productID: testProduct.id, image: "delete-me-too.svg" },
