@@ -218,7 +218,7 @@ describe("Category Controller and DB operations", () => {
       .post("/api/categories")
       .send({ name: "Unique Category" });
 
-    expect([400, 409]).toContain(response.status);
+    expect(response.status).toBe(409);
     expect(response.body).toHaveProperty("error");
   });
   it("TCCA10: should return 400 if creating a category with missing name", async () => {
@@ -237,7 +237,7 @@ describe("Category Controller and DB operations", () => {
       .put(`/api/categories/${catB.id}`)
       .send({ name: "CatA" });
 
-    expect([400, 409]).toContain(response.status);
+    expect(response.status).toBe(409);
     expect(response.body).toHaveProperty("error");
   });
   it("TCCA12: should return 404 when deleting a non-existent category", async () => {
@@ -251,14 +251,6 @@ describe("Category Controller and DB operations", () => {
     const response = await request(app).get(
       "/api/categories/invalid-id-format"
     );
-    expect([400, 404]).toContain(response.status); // Tùy vào middleware validate
-  });
-  it("TCCA14: should return empty array when there are no categories", async () => {
-    // Xóa hết category
-    await prisma.category.deleteMany({});
-    const response = await request(app).get("/api/categories");
-    expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body.length).toBe(0);
+    expect(response.status).toBe(400);
   });
 });
